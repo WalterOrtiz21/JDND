@@ -101,6 +101,20 @@ public class CarControllerTest {
                 .andExpect(status().isCreated());
     }
 
+    @Test
+    public void updateCar() throws Exception {
+        Car car = getCar();
+        car.setId(1L);
+        car.setCondition(Condition.NEW);
+        mvc.perform(
+                post(new URI("/cars"))
+                        .content(json.write(car).getJson())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                        .andExpect(jsonPath("$.condition").value(Condition.NEW));
+
+    }
+
     /**
      * Tests if the read operation appropriately returns a list of vehicles.
      * @throws Exception if the read operation of the vehicle list fails
